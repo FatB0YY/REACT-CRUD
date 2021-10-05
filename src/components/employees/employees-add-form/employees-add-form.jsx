@@ -12,8 +12,8 @@ class EmployeesAddForm extends Component {
 
   // один обработчик для двух инпутов
   onValueChange = (event) => {
-    const targetValue = event.taget.value
-    const targetName = event.taget.name
+    const targetValue = event.target.value
+    const targetName = event.target.name
     this.setState({
       [targetName]: targetValue,
     })
@@ -21,12 +21,15 @@ class EmployeesAddForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault()
+    
     this.props.onAdd(this.state.name, this.state.salary)
     this.setState({
       name: '',
       salary: '',
     })
   }
+
+
 
   render() {
     const { name, salary } = this.state

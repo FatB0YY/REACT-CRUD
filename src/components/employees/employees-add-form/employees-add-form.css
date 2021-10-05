@@ -11,6 +11,10 @@
   margin-top: 20px;
 }
 
+.add-form.error{
+  border: 1px solid red;
+}
+
 .add-form input {
   width: 350px;
   margin-right: 20px;

@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from 'uuid'
 import AppInfo from '../app-info/app-info'
 import SearchPanel from '../search-panel/search-panel'
 import AppFilter from '../app-filter/app-filter'
-import EmployeesList from '../employees-list/employees-list'
-import EmployeesAddForm from '../employees-add-form/employees-add-form'
+import EmployeesList from '../employees/employees-list/employees-list'
+import EmployeesAddForm from '../employees/employees-add-form/employees-add-form'
 
 import './app.css'
 
@@ -15,9 +15,27 @@ class App extends Component {
     super(props)
     this.state = {
       data: [
-        { name: 'John', salary: 356, increase: false, id: uuidv4() },
-        { name: 'Nick', salary: 3742, increase: true, id: uuidv4() },
-        { name: 'Alex', salary: 3444, increase: false, id: uuidv4() },
+        {
+          name: 'John',
+          salary: 356,
+          increase: false,
+          rise: true,
+          id: uuidv4(),
+        },
+        {
+          name: 'Nick',
+          salary: 3742,
+          increase: true,
+          rise: false,
+          id: uuidv4(),
+        },
+        {
+          name: 'Alex',
+          salary: 3444,
+          increase: false,
+          rise: false,
+          id: uuidv4(),
+        },
       ],
     }
   }
@@ -47,10 +65,14 @@ class App extends Component {
   }
 
   addItem = (name, salary) => {
+
+    if(!(name.length >= 3 && salary !== '')) return 
+
     const newItem = {
       name,
       salary,
       increase: false,
+      rise: false,
       id: uuidv4(),
     }
     this.setState(({ data }) => {
@@ -61,17 +83,79 @@ class App extends Component {
     })
   }
 
+  onToggleRise = (id) => {
+    console.log(`Rise this ${id}`)
+    this.setState(({ data }) => ({
+      // мы возвращаем новый объект. у которого  будет св-во data
+      // у которого будет формироваться новый массив
+      // когда идет перебор этих объектов, мы делаем проверку
+      // если id совпали, значит мы нашли нужный нам объект
+      // значит мы будем возвращать объект, который содержт все старые св-ва и обнов increase
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, rise: !item.rise }
+        }
+        return item
+      }),
+    }))
+  }
+  
+  onToggleIncease = (id) => {
+    console.log(`Incease this ${id}`)
+    // 1 вариант
+    // this.setState(({data}) => {
+    //   const idx = data.findIndex((elem) => elem.id.toString() === id.toString())
+    //   // мы создаем копию, чтобы что то поменять
+    //   const old = data[idx]
+    //   // не нарушает иммутабельность
+    //   const newItem ={...old, increase: !old.increase}
+    //   const newArray = [...data.slice(0, idx), newItem, ...data.slice(idx + 1)]
+    //   return {
+    //     data: newArray
+    //   }
+    // })
+
+    // 2 вариант
+    this.setState(({ data }) => ({
+      // мы возвращаем новый объект. у которого  будет св-во data
+      // у которого будет формироваться новый массив
+      // когда идет перебор этих объектов, мы делаем проверку
+      // если id совпали,  значит мы нашли нужный нам объект
+      // значит мы будем возвращать объект, который содержт все старые св-ва и обнов increase
+      data: data.map((item) => {
+        if (item.id === id) {
+          return { ...item, increase: !item.increase }
+        }
+        return item
+      }),
+    }))
+  }
+
+  getCount = () => {
+    this.setState(({ data }) => {
+      console.log(data);
+    })
+  }
+
   render() {
+    const count = this.state.data.length
+    const increased = this.state.data.filter((item) => item.increase === true).length
+
     return (
       <div className='app'>
-        <AppInfo />
+        <AppInfo count={count} increased={increased}/>
 
         <div className='search-panel'>
           <SearchPanel />
           <AppFilter />
         </div>
 
-        <EmployeesList data={this.state.data} onDelete={this.deleteItem} />
+        <EmployeesList
+          data={this.state.data}
+          onDelete={this.deleteItem}
+          onToggleIncease={this.onToggleIncease}
+          onToggleRise={this.onToggleRise}
+        />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
     )
@@ -79,3 +163,6 @@ class App extends Component {
 }
 
 export default App
+
+
+// чайковский
