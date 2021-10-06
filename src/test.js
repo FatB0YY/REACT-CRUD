@@ -9,7 +9,7 @@
 //   )
 // }
 
-import { Component } from 'react'
+import { Component, Fragment } from 'react'
 
 class WhoAmI extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class WhoAmI extends Component {
   }
 
   commitInputChanges = (event, color) => {
-    console.log(color);
+    console.log(color)
     const target = event.target.value
     console.log(target)
     this.setState({
@@ -45,20 +45,26 @@ class WhoAmI extends Component {
     const { name, surname, link, text } = this.props
     const { years, position } = this.state
 
+    // Fragment избавляет от ненужного div
     return (
-      <div>
-        <button onClick={this.nextYear}>{text}</button>
-        <h1>
-          My name is {name}, surname - {surname}, age - {years}, position -{' '}
-          {position}
-        </h1>
-        <a href={link}>link</a>
+      <Fragment>
+        <div>
+          <button onClick={this.nextYear}>{text}</button>
+          <h1>
+            My name is {name}, surname - {surname}, age - {years}, position -{' '}
+            {position}
+          </h1>
+          <a href={link}>link</a>
 
-        <form>
-          <span>Введите должность</span>
-          <input type='text' onChange={(event) => this.commitInputChanges(event, 'some color')} />
-        </form>
-      </div>
+          <form>
+            <span>Введите должность</span>
+            <input
+              type='text'
+              onChange={(event) => this.commitInputChanges(event, 'some color')}
+            />
+          </form>
+        </div>
+      </Fragment>
     )
   }
 }
