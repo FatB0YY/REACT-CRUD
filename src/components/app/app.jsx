@@ -167,7 +167,7 @@ class App extends Component {
   }
 
   onFilterSelect = (filter) => {
-    this.setState({filter})
+    this.setState({ filter })
   }
 
   render() {
@@ -179,7 +179,7 @@ class App extends Component {
     ).length
 
     // сначала идет фильтрация по поиску, а потом по фильтрам
-    const visibleData = this.filterPost(this.searchEmp(data, term), filter) 
+    const visibleData = this.filterPost(this.searchEmp(data, term), filter)
 
     return (
       <div className='app'>
@@ -187,7 +187,7 @@ class App extends Component {
 
         <div className='search-panel'>
           <SearchPanel onUpdateSearch={this.onUpdateSearch} />
-          <AppFilter filter={filter} onFilterSelect={this.onFilterSelect}/>
+          <AppFilter filter={filter} onFilterSelect={this.onFilterSelect} />
         </div>
 
         <EmployeesList
